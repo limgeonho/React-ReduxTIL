@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> 
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+  <script type="text/babel">
+    const root = document.getElementById("root"); // root라는 id의 div를 가져오기
+    
+    function App(){
+      const [counter, setCounter] = React.useState(0);
+      const onClick = () => {
+        // setCounter(counter + 1); // setCounter가 호출되어서 counter(data)의 값이 달라지면 알아서 리랜더링한다. 바뀌는 값 부분만 알아서 리랜더링
+        setCounter((current) => current + 1); // 1번째 인자는 현재 값을 갖는 설정이 되어 있기 때문에 기존의 값으로 다음 값을 계산하는 연산에서는 해당 방법을 이용한다!!
+      };
+      return(
+      <div>
+        <h3>Total clicks: {counter}</h3>
+        <button onClick={onClick}>CLick me</button>
+      </div>
+      );
+    }
+    ReactDOM.render(<App/>, root);
+  </script>
+</html>

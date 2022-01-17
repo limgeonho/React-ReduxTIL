@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script> 
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+  <script type="text/babel">
+    function Btn({text, changeValue}){ // props를 전달받는 방법 => function Btn이 함수이기 때문에 첫 번재 인자로 부모로 부타 props를 object 형태로 전달받음
+      return (
+        <button
+          onClick={changeValue}
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+    
+    const MemorizedBtn = React.memo(Btn); // 부모의 state가 변하면 자식들은 전부 리랜더링되기 때문에 => React.memo을 사용하면 state가 변하지 않은 component들은 리랜더링되지 않는다.
+    function App(){
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => setValue("Revert Changes");
+      return(
+        <div>
+          <MemorizedBtn text={value} changeValue={changeValue}/> // Btn에 전달되는 것은 전부 props이기 때문에 HTML에 적용되지 X  따라서, 직접 호출해줘야함.
+          <MemorizedBtn text="Continue"/>
+        </div>
+        );
+      }
+    const root = document.getElementById("root"); 
+    ReactDOM.render(<App/>, root);
+  </script>
+</html>

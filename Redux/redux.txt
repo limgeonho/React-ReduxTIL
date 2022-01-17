@@ -1,0 +1,137 @@
+npm install redux
+
+
+==============================================
+store는 data를 저장하는 공간
+
+const reducer = () => {  // reducer는 반드시 function이어야 하고 store에 들어간 data를 관리(modify)한다. 
+  return 리턴값; // 리턴값은 store의 data가 된다. 추가적으로 이 data를 modify하는 방법은 reducer안에서 밖에 할 수 없다.
+  }; 
+
+const store = createStore(reducer);
+
+action이란? // countModifier와 소통하는 방법
+const countModifier = (count=0, action) => { // action은 반드시 type를 object형태로 가지고 있어야 한다.
+  if (action.type === "ADD"){
+    return count += 1; // data에는 count에 1을 더한 1이 저장된다.
+  }
+}
+const store = createStore(countModifier); 
+// 에서 store에 들어있는 data를 바꾸는 방법은 countModifier를 이용하는 것임
+// 해당 countModifier에 message를 보내는 방법은 action을 호출하는 것임
+// 그렇다면 action을 호출하는 방법은 store.dispatch({ type : "ADD"}); 로 dispatch하는 것임
+
+subscribe이란? // store에 변경이 감지되면 다른 function을 실행하는 것
+const onChange () => {};
+store.subscribe(onChange); // store안에 변화를 감지하면 onChange라는 function을 실행
+
+==============================================
+
+const reducer = (state = [], action) => {}; // reducer은 2개의 argument를 받을 수 있음! default로는 빈 array
+
+NEVER mutate state
+=> 항상 새로운 state를 만들고 그 새로운 state를 return한다!!
+● state는 single source of truth이며, read-only이다
+● store을 수정할 수 있는 유일한 방법은 action을 보내는 방법뿐이다.
+● state를 mutate하지 말아야한다.
+▷ mutating state하는 대신에 new state objects를 리턴해야 한다.
+
+...state ▷ state array안의 모든 content
+
+const reducer = (state = [], action) => {
+  switch (action.type) {
+    case ADD_TODO:
+      return [...state, { text: action.text, id: Date.now() }]; // 이 부분!!
+    case DELETE_TODO:
+      return [];
+    default:
+      return state;
+  }
+};
+
+JS에서 array에서 element를 삭제하기 위해서는 splice()가 아니라 filter()를 사용하자(filter()는 mutate를 하지 않고 create해서 return하기 때문에)
+ex)
+const result = words.filter(word => word.length > 6); // filter에서 true인 값들로만 다시 구성해서 return함.
+=> 이러한 방법을 굳이 사용하는 이유는? state를 절대로 mutate하지 않기 위해서!
+
+==============================================
+
+[react-redux]
+
+npm install react-redux react-router-dom
+
+router 설정이 약간 다름
+<Router>
+  <Routes>
+     <Route path="/" exact element={<Home/>}></Route>
+     <Route path="/:id" element={<Detail/>}></Route>
+   </Routes>
+</Router>
+
+== index.js ==
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
+
+import { Provider } from "react-redux"; // react-redux 사용!
+import store from "./store";
+
+ReactDOM.render(
+  <Provider store={store}> // 해당 부분에서 store.js와 index.js를 연결한다. <Provider>을 통해!!!
+    <App/>
+  </Provider>,
+ document.getElementById("root")
+);
+
+
+mapStateToProps, mapDispatchToProps????
+
+==============================================
+
+[Redux Toolkit]
+
+반복되는 Redux 코드들을 줄여줄 수 있는 toolkit
+
+npm install @reduxjs/toolkit
+
+---------------------------------------------
+import { createAction } from "@reduxjs/toolkit";
+
+// actionCreator
+const addToDo = createAction("ADD");
+const deleteToDo = createAction("DELETE");
+---------------------------------------------
+import { createAction, createReducer } from "@reduxjs/toolkit";
+
+// ReduxToolkit를 사용해서 actionCreator을 이용했기 때문에 기존의 addToDo안에 직접 객체로 key : value를 넣어주지 않아도 되고 action의 payload로 전부처리 가능!! 
+const reducer = createReducer([], { // createReducer([] == default state, action을 직접 설정)을 통해 switch case를 쓰지 않아도 reducer 가능!
+  [addToDo]: (state, action) => {
+    state.push({text: action.payload, id: Date.now()}); // 원래 state는 mutate하면 안되지만 redux toolkit와 immer이 back에서 처리해주기 때문에 사용가능, 하지만 mutate하는 경우에는 새로운 state return 값이 있어야 하기 때문에 {}로 묶음
+  },
+  [deleteToDo]: (state, action) => 
+    state.filter(toDo => toDo.id !== action.payload) // filter는 새로운 state return 값을 가지고 있기 때문에 {}로 묶지 않아도 된다. 
+});
+---------------------------------------------
+const store = createStore(reducer);
+// const store = configureStore({reducer})을 사용하면 Redux Dev Tools를 사용할 수 있음. => Redux Toolkit를 설치하지 않아도 사용가능..(참고)
+---------------------------------------------
+위의 과정들을 한번에 해결해주는 방법이 createSlice를 사용하는 것이다.
+// createSlice를 사용해서 코드의 길이를 엄청나게 줄여버림
+const toDos = createSlice({
+  name: "toDosReducer",
+  initialState: [],
+  reducers: {
+    add: (state, action) => {
+      state.push({ text: action.payload, id: Date.now() });
+    },
+    remove: (state, action) => state.filter(toDo => toDo.id !== action.payload)
+  }
+});
+
+export const { add, remove } = toDos.actions;
+
+export default configureStore({ reducer: toDos.reducer }); // createSlice를 통해서 자동으로 reducer가 만들어진다. { reducer: toDos.reducer }
+---------------------------------------------
+
+
+

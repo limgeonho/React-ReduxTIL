@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> 
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+  <script type="text/babel">
+    const root = document.getElementById("root"); // root라는 id의 div를 가져오기
+    // const span = React.createElement("span", {id: "span_id", style: {color: "red"}}, "Hello I'm a span"); // React를 이용해서 직접 span태그를 만들고 설정
+    // ReactDOM.render(span, root); // 가져온 root div안에 직접 만든 span태그를 랜더링! => 1개의 태그를 랜더링
+    
+    /*
+    const h3 = React.createElement(
+      "h3", // 만들 태그
+      {
+        onMouseEnter: () => console.log("mouse enter"), // 이벤트
+      },
+      "Hello I'm a span"  // content
+      );
+    */
+
+    // JSX를 동해서 위의 기능과 똑같이 구현
+    function Title() {
+      return (
+      <h3 id="title" onMouseEnter={() => console.log("mouse enter")}>Hello I'm a title</h3>
+      );
+    }
+
+    /*
+    const btn = React.createElement(
+      "button",
+      {
+        onClick: () => console.log("i'm clicked"), // React의 파워!
+      },
+      "Click me"
+        );
+    */
+    const Button = () => (
+      <button id="title" onClick={() => console.log("i'm clicked")}>Click me</button>
+    );
+
+    // const container = React.createElement("div", null, [Title, Button]); // 여러개의 태그는 리스트[]에 담아서 한 번에 넣는다.
+    const Container = () => (<div><Title/><Button/></div>); // 기존의 Title와 Button을 사용하기 위해서는 함수 형태로 만들어줘야함(첫 글자는 대문자로!)
+    ReactDOM.render(<Container/>, root);
+  </script>
+</html>
