@@ -6,7 +6,7 @@ import { createAction, createReducer, configureStore, createSlice } from "@redux
 const addToDo = createAction("ADD");
 const deleteToDo = createAction("DELETE");
 
-//const reducer = (state = [], action) => {
+// const reducer = (state = [], action) => {
 //  switch (action.type) {
 //   case addToDo.type:
 //      return [{text:action.payload, id: Date.now()}, ...state];

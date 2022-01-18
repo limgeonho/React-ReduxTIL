@@ -22,7 +22,7 @@ function Home({toDos, addToDo}) { // props로 toDos의 state를 가져온다.
       </form>
       <ul>
         {toDos.map(toDo => (
-          <ToDo {...toDo} key={toDo.id} />
+          <ToDo {...toDo} key={toDo.id} /> // {...toDo} 는 {prop}에 toDo의 모든 정보를 포함해서 전달하겠다는 의미!
         ))}
       </ul>
     </>
@@ -30,7 +30,7 @@ function Home({toDos, addToDo}) { // props로 toDos의 state를 가져온다.
 }
 
 // mapStateToProps함수를 통해서 store에서 Home로 데이터를 가져온다.(= getState())
-function mapStateToProps(state) {
+function mapStateToProps(state) { // store 에서 가져온 state이고 mapStateToProps()의 return 값은 Home의 props로 전달된다.
   return {toDos: state};
 }
 
@@ -42,3 +42,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home); // connect는 mapStateToProps, mapDispatchToProps 두 가지 인자를 받는다.
+// connect는 component와 store를 연결한다.
+// store에는 두 가지 기능이 있는데
+// store.dispatch() => redux에서는 mapDispatchToProps 라 부른다.
+// store.getState() => redux에서는 mapStateToProps 라 부른다.
