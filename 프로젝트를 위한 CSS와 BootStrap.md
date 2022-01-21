@@ -8,7 +8,15 @@
 
   block - 한 덩어리(높이와 폭이 존재함), 한 줄 전체를 차지함
 
+  ```html
+  <div>, <footer>, <form>, <hr>, <p>, <ul>, <h1>, <h2>, <h3>, <h4>, <h5>, <h6>
+  ```
+
   inline - 한 줄(높이가 있어보이지만 사실 높이X, 폰트사이즈는 조정O), 띄어쓰기로 작성 가능
+
+  ```html
+  <a>, <br/>, <button>, <img>, <input>, <label>, <span>, <textarea>
+  ```
 
   
 
