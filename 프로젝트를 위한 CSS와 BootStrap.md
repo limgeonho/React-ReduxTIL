@@ -341,6 +341,8 @@
 
     
 
+- flex  참고사이트 : https://studiomeal.com/archives/197
+
 - Bootstrap Grid System(중요함)
 
   Grid system(12) => flexbox로 제작됨
