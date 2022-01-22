@@ -351,6 +351,12 @@
 
 - container => row => column(중요함)
 
+  
+
+- grid 참고사이트 : https://studiomeal.com/archives/533
+
+  
+
 - Grid system(중요함)
 
   1. 12개의 column
