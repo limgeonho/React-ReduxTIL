@@ -1,0 +1,48 @@
+exact element
+
+flexbox flex
+
+mapStateToProps(state, ownProps)
+
+state와 ownProps라는 인자를 가지는데
+state는 redux store에서 state를 가져오는 것이다
+ownProps는 react-dom으로부터 기본으로 받는 값들이다.
+
+function mapStateToProps(state, ownProps) {
+  return {todos:state}
+}
+하게 되면 props에 react-dom으로부터 받은 prop들과 뒤에 todos:state로 넣어준 props가 추가된다.
+따라서 mapStateToProps는 store에서 state를 가져와서 props로 전달하겠다는 의미를 가진다.
+
+===========================================
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addToDo: text => dispatch(actionCreators.addToDo(text))
+  };
+}
+
+mapDispatchToProps는 기본적으로 (dispatch, ownProps)인자를 갖는다.
+dispatch는 action을 통해 reducer를 호출함
+addToDo: (text) => dispatch(actionCreators.addToDo(text)) 를 통해서 component에 addToDO를 component의 props로 전달한다.
+
+mapDispatchToProps를 사용하면 dispatch를 통해 action으로 가져온 데이터를 store에 반영함
+
+
+
+  const {
+    match: {
+      params: { id }
+    }
+  } = ownProps;
+의 의미는
+const id = ownProps.match.params.id 와 같음
+
+state와 local storage연결하는방법 찾기
+
+
+
+
+
+
+
